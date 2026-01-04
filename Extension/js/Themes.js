@@ -7,4 +7,11 @@ function addCss(fileName) {
   link.rel = "stylesheet";
   link.href = fileName;
   nbottom.appendChild(link);
+  
+  // Set CSS variable for banner image URL (Firefox compatibility)
+  if (fileName.includes("dark.css")) {
+    var style = document.createElement("style");
+    style.textContent = ":root { --banner-image-url: url('" + browser.runtime.getURL("images/BannerMain.png") + "'); }";
+    nbottom.appendChild(style);
+  }
 }
