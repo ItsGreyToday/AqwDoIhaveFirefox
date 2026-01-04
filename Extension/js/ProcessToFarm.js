@@ -53,7 +53,15 @@ function loadWikiItems() {
 var items_json = loadWikiItems()
 var wiki_exclude_suffixes = getJson(browser.runtime.getURL("data/wiki_exclude_suffixes.json"))
 
-
+if (typeof drop_icon === 'undefined') {
+	var drop_icon = browser.runtime.getURL("images/monster_drop.png");
+}
+if (typeof quest_icon === 'undefined') {
+	var quest_icon = browser.runtime.getURL("images/quest_icon.png");
+}
+if (typeof mergeshop_icon === 'undefined') {
+	var mergeshop_icon = browser.runtime.getURL("images/mergeshop_icon.png");
+}
 
 async function add_to_table(table,item_name,item_details, av_item_count, avaliableItemsElement){
 	let tr = document.createElement("tr") 
