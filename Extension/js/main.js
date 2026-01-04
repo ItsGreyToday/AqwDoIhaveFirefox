@@ -149,7 +149,11 @@ function addToFarm_button() {
 	var ToFarm = document.createElement("button") 
 	ToFarm.onclick = function() { goto_ToFarm(); return false; }
 	ToFarm.style = "background-color: Transparent;border: none;" 
-	ToFarm.innerHTML = " <img style='height:35px;' src="+tofarm_icon+"></img>"
+	var img = document.createElement("img");
+	img.style.height = "35px";
+	img.src = tofarm_icon;
+	ToFarm.appendChild(document.createTextNode(" "));
+	ToFarm.appendChild(img);
 	header.prepend(ToFarm)
 	
 }
@@ -276,7 +280,7 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 	
 	// Creates Found amount element near title. 
 	var found_info = document.createElement("a") 
-	found_info.innerHTML = "- Found 0 Items"
+	found_info.textContent = "- Found 0 Items"
 	found_info.style = "font-weight: bold;color:green;"
 	Title.appendChild(found_info)
 	
@@ -342,16 +346,48 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 				var liMergeFilters = document.createElement("li")
 				liMergeFilters.id = "MergeFilter"
 				liMergeFilters.onclick = null 
-				liMergeFilters.innerHTML = `<b class="grayBox" id="pad"  >Filters ></b>
-				<input id="NormalFilter" type='checkbox' style="margin-left:5px;"> </input>
-				<img src="`+normal_icon+`" alt="normal_icon.png" class="image">
 				
-				<input id="AcFilter" type='checkbox' style="margin-left:5px;"> </input>
-				<img src="http://aqwwiki.wdfiles.com/local--files/image-tags/acsmall.png" alt="acsmall.png" class="image">
-				<input id="LegendFilter" type='checkbox' style="margin-left:5px;"> </input>
-				<img src="http://aqwwiki.wdfiles.com/local--files/image-tags/legendsmall.png" alt="legendsmall.png" class="image">
+				var filtersLabel = document.createElement("b");
+				filtersLabel.className = "grayBox";
+				filtersLabel.id = "pad";
+				filtersLabel.textContent = "Filters >";
+				liMergeFilters.appendChild(filtersLabel);
 				
-				`
+				var normalFilterInput = document.createElement("input");
+				normalFilterInput.id = "NormalFilter";
+				normalFilterInput.type = "checkbox";
+				normalFilterInput.style.marginLeft = "5px";
+				liMergeFilters.appendChild(normalFilterInput);
+				
+				var normalImg = document.createElement("img");
+				normalImg.src = normal_icon;
+				normalImg.alt = "normal_icon.png";
+				normalImg.className = "image";
+				liMergeFilters.appendChild(normalImg);
+				
+				var acFilterInput = document.createElement("input");
+				acFilterInput.id = "AcFilter";
+				acFilterInput.type = "checkbox";
+				acFilterInput.style.marginLeft = "5px";
+				liMergeFilters.appendChild(acFilterInput);
+				
+				var acImg = document.createElement("img");
+				acImg.src = "http://aqwwiki.wdfiles.com/local--files/image-tags/acsmall.png";
+				acImg.alt = "acsmall.png";
+				acImg.className = "image";
+				liMergeFilters.appendChild(acImg);
+				
+				var legendFilterInput = document.createElement("input");
+				legendFilterInput.id = "LegendFilter";
+				legendFilterInput.type = "checkbox";
+				legendFilterInput.style.marginLeft = "5px";
+				liMergeFilters.appendChild(legendFilterInput);
+				
+				var legendImg = document.createElement("img");
+				legendImg.src = "http://aqwwiki.wdfiles.com/local--files/image-tags/legendsmall.png";
+				legendImg.alt = "legendsmall.png";
+				legendImg.className = "image";
+				liMergeFilters.appendChild(legendImg);
 				
 				element.append(liMergeFilters)
 				
@@ -465,7 +501,7 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 			
 			
 			// Displays found amount 
-			found_info.innerHTML = "- Found "+found+" Items" // Displays items found 
+			found_info.textContent = "- Found "+found+" Items" // Displays items found 
 			
 		});
 	}, 100); // Small delay to ensure storage is ready

@@ -9,10 +9,10 @@ function popup_restore_options() {
 	var docs = document.getElementById('dark_moded')
 	browser.storage.local.get({darkmode: 0}, function(result){
 	if (result.darkmode == 1) {
-		docs.innerHTML = "Dark Mode (ON)"
+		docs.textContent = "Dark Mode (ON)"
 	}
 	else{
-		docs.innerHTML = "Dark Mode (OFF)"
+		docs.textContent = "Dark Mode (OFF)"
 	}
 
  
@@ -21,7 +21,7 @@ function popup_restore_options() {
  
 function popup_save_options() {
   var Dark_Mode = 0
-  if (document.getElementById('dark_moded').innerHTML == "Dark Mode (ON)") {
+  if (document.getElementById('dark_moded').textContent == "Dark Mode (ON)") {
 	  Dark_Mode = 0
   } else {
 	  Dark_Mode = 1

@@ -314,9 +314,25 @@ function DisplayCost(itemsObject, tabAmount, frame, yourItems, MFN, MFA, MFL) {
 	
 	var mergeshopItemsAmount = document.getElementsByTagName("tr").length - document.getElementsByClassName("yui-nav")[0].getElementsByTagName("li").length;
 	
-	var tableHeader = `<div class='yui-content'><tbody><th>Item Needed</th><th>Amount</th><th>You Have</th><th>Left</th>`;
+	// Build table structure using DOM methods
+	var yuiContent = document.createElement("div");
+	yuiContent.className = "yui-content";
+	var tbody = document.createElement("tbody");
+	var headerRow = document.createElement("tr");
 	
-	var tableBody = "";
+	var th1 = document.createElement("th");
+	th1.textContent = "Item Needed";
+	headerRow.appendChild(th1);
+	var th2 = document.createElement("th");
+	th2.textContent = "Amount";
+	headerRow.appendChild(th2);
+	var th3 = document.createElement("th");
+	th3.textContent = "You Have";
+	headerRow.appendChild(th3);
+	var th4 = document.createElement("th");
+	th4.textContent = "Left";
+	headerRow.appendChild(th4);
+	tbody.appendChild(headerRow);
 	
 	itemsObject = itemCheck(itemsObject, yourItems) 
 	
@@ -354,30 +370,58 @@ function DisplayCost(itemsObject, tabAmount, frame, yourItems, MFN, MFA, MFL) {
 				var itemHref = "" 
 			}
 			
+			var tr = document.createElement("tr");
+			var td1 = document.createElement("td");
+			var td2 = document.createElement("td");
+			var td3 = document.createElement("td");
+			var td4 = document.createElement("td");
+			
 			if (leftAmount <= 0) {
 				leftAmount=0
-				
-				tableBody += `<tr><td style='text-decoration: line-through;'><a href="${itemHref}">${key}</a></td><td>${value}</td><td style="color:green;">${accountAmount}</td><td>${leftAmount}</td></tr>`
-			}
-			else {
-				tableBody += `<tr><td ><a href="${itemHref}">${key}</a></td><td>${value}</td><td style='color:red;'>${accountAmount}</td><td>${leftAmount}</td></tr>`	
+				td1.style.textDecoration = "line-through";
 			}
 			
+			var link = document.createElement("a");
+			link.href = itemHref;
+			link.textContent = key;
+			td1.appendChild(link);
+			
+			td2.textContent = value;
+			
+			td3.textContent = accountAmount;
+			if (leftAmount <= 0) {
+				td3.style.color = "green";
+			} else {
+				td3.style.color = "red";
+			}
+			
+			td4.textContent = leftAmount;
+			
+			tr.appendChild(td1);
+			tr.appendChild(td2);
+			tr.appendChild(td3);
+			tr.appendChild(td4);
+			tbody.appendChild(tr);
 		}
 		
 		
 	});
 
+	yuiContent.appendChild(tbody);
 
 	if (!update) {
 		element.classList.add("wiki-content-table")
 		element.classList.add("MergeContentTable")
 		element.style = "position:relative;float:right;align:left;text-align: center;width:100%";
-		element.innerHTML = tableHeader + tableBody;
+		element.appendChild(yuiContent.cloneNode(true));
 	}
 	else {
 		for (var i = 0; i < element.length; i++) { 
-			element[i].innerHTML = tableHeader + tableBody;
+			// Clear existing content
+			while (element[i].firstChild) {
+				element[i].removeChild(element[i].firstChild);
+			}
+			element[i].appendChild(yuiContent.cloneNode(true));
 		}
 	}
 
@@ -396,8 +440,7 @@ function repairSpan() {
 	hrElement = hrElement[hrElement.length-1]
 	divElement = hrElement.nextElementSibling
 	
-	cloneDiv = divElement.cloneNode() 
-	cloneDiv.innerHTML = divElement.innerHTML
+	cloneDiv = divElement.cloneNode(true)
 	hrElement.remove() 
 	divElement.remove()
 	
@@ -552,7 +595,35 @@ function updateTable(Frame, mergeshopItemsAmount, mergeshopAcquiredItems) {
 			EL = document.getElementsByClassName("MasterMergeTable")[x]
 			if (EL != undefined) {
 				EL.style = "position:relative;align:left;width:100%;"
-				EL.innerHTML = "<div class='yui-content'><table class=;wiki-content-table;><tbody><th>Items Available</th><th>Acquired</th><tr><td style='text-align:center'>"+mergeshopItemsAmount+"</td><td>"+mergeshopAcquiredItems+"</td></tbody></table></div>"
+				// Clear existing content
+				while (EL.firstChild) {
+					EL.removeChild(EL.firstChild);
+				}
+				var yuiContent = document.createElement("div");
+				yuiContent.className = "yui-content";
+				var table = document.createElement("table");
+				table.className = "wiki-content-table";
+				var tbody = document.createElement("tbody");
+				var headerRow = document.createElement("tr");
+				var th1 = document.createElement("th");
+				th1.textContent = "Items Available";
+				var th2 = document.createElement("th");
+				th2.textContent = "Acquired";
+				headerRow.appendChild(th1);
+				headerRow.appendChild(th2);
+				tbody.appendChild(headerRow);
+				var dataRow = document.createElement("tr");
+				var td1 = document.createElement("td");
+				td1.style.textAlign = "center";
+				td1.textContent = mergeshopItemsAmount;
+				var td2 = document.createElement("td");
+				td2.textContent = mergeshopAcquiredItems;
+				dataRow.appendChild(td1);
+				dataRow.appendChild(td2);
+				tbody.appendChild(dataRow);
+				table.appendChild(tbody);
+				yuiContent.appendChild(table);
+				EL.appendChild(yuiContent);
 			}
 			x = x + 1
 			
@@ -561,18 +632,64 @@ function updateTable(Frame, mergeshopItemsAmount, mergeshopAcquiredItems) {
 			PL = Element.getElementsByClassName("progressBar")[P]
 			var progressWidth = parseInt(100*mergeshopAcquiredItems/mergeshopItemsAmount)
 			
-			if (progressWidth != 0) {
-				PL.innerHTML = `<br><div class="w3-dark-grey" style="text-align:center"><div class="w3-container w3-green w3-center" style="font-weight:800;width:${progressWidth}%">${progressWidth}%</div></div><br>`
-			} else {
-			PL.innerHTML = `<br><div style="font-weight:800;text-align:center" class="w3-dark-grey">0%</div><br>`
+			// Clear existing content
+			while (PL.firstChild) {
+				PL.removeChild(PL.firstChild);
 			}
+			
+			PL.appendChild(document.createElement("br"));
+			var outerDiv = document.createElement("div");
+			outerDiv.className = "w3-dark-grey";
+			outerDiv.style.textAlign = "center";
+			
+			if (progressWidth != 0) {
+				var innerDiv = document.createElement("div");
+				innerDiv.className = "w3-container w3-green w3-center";
+				innerDiv.style.fontWeight = "800";
+				innerDiv.style.width = progressWidth + "%";
+				innerDiv.textContent = progressWidth + "%";
+				outerDiv.appendChild(innerDiv);
+			} else {
+				outerDiv.style.fontWeight = "800";
+				outerDiv.textContent = "0%";
+			}
+			PL.appendChild(outerDiv);
+			PL.appendChild(document.createElement("br"));
 		}
 		
 			
 		
 	} else {
 		Element.style = "position:relative;align:left;width:100%;"
-		Element.innerHTML = "<div class='yui-content'><table class=;wiki-content-table;><tbody><th>Items Available</th><th>Acquired</th><tr><td style='text-align:center'>"+mergeshopItemsAmount+"</td><td>"+mergeshopAcquiredItems+"</td></tbody></table></div>"
+		// Clear existing content
+		while (Element.firstChild) {
+			Element.removeChild(Element.firstChild);
+		}
+		var yuiContent = document.createElement("div");
+		yuiContent.className = "yui-content";
+		var table = document.createElement("table");
+		table.className = "wiki-content-table";
+		var tbody = document.createElement("tbody");
+		var headerRow = document.createElement("tr");
+		var th1 = document.createElement("th");
+		th1.textContent = "Items Available";
+		var th2 = document.createElement("th");
+		th2.textContent = "Acquired";
+		headerRow.appendChild(th1);
+		headerRow.appendChild(th2);
+		tbody.appendChild(headerRow);
+		var dataRow = document.createElement("tr");
+		var td1 = document.createElement("td");
+		td1.style.textAlign = "center";
+		td1.textContent = mergeshopItemsAmount;
+		var td2 = document.createElement("td");
+		td2.textContent = mergeshopAcquiredItems;
+		dataRow.appendChild(td1);
+		dataRow.appendChild(td2);
+		tbody.appendChild(dataRow);
+		table.appendChild(tbody);
+		yuiContent.appendChild(table);
+		Element.appendChild(yuiContent);
 		
 		if (!update) {
 			var ProgressbarElement = document.createElement("div")
@@ -583,11 +700,30 @@ function updateTable(Frame, mergeshopItemsAmount, mergeshopAcquiredItems) {
 		}
 		
 		var progressWidth = parseInt(100*mergeshopAcquiredItems/mergeshopItemsAmount)
-		if (progressWidth != 0) {
-	ProgressbarElement.innerHTML = `<br><div class="w3-dark-grey" style="text-align:center"><div class="w3-container w3-green w3-center" style="font-weight:800;width:${progressWidth}%">${progressWidth}%</div></div><br>`
-		} else {
-			ProgressbarElement.innerHTML = `<br><div style="font-weight:800;text-align:center" class="w3-dark-grey">0%</div><br>`
+		
+		// Clear existing content
+		while (ProgressbarElement.firstChild) {
+			ProgressbarElement.removeChild(ProgressbarElement.firstChild);
 		}
+		
+		ProgressbarElement.appendChild(document.createElement("br"));
+		var outerDiv = document.createElement("div");
+		outerDiv.className = "w3-dark-grey";
+		outerDiv.style.textAlign = "center";
+		
+		if (progressWidth != 0) {
+			var innerDiv = document.createElement("div");
+			innerDiv.className = "w3-container w3-green w3-center";
+			innerDiv.style.fontWeight = "800";
+			innerDiv.style.width = progressWidth + "%";
+			innerDiv.textContent = progressWidth + "%";
+			outerDiv.appendChild(innerDiv);
+		} else {
+			outerDiv.style.fontWeight = "800";
+			outerDiv.textContent = "0%";
+		}
+		ProgressbarElement.appendChild(outerDiv);
+		ProgressbarElement.appendChild(document.createElement("br"));
 	}
 
 	if (!update) {

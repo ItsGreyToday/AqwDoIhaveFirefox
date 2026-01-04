@@ -86,7 +86,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 					href = price.split(">")[0].split('"')[1]
 					
 					priceElement.href = href
-					priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+collectionchest_icon+'"></img>'
+					var img = document.createElement("img");
+					img.title = title;
+					img.style.width = "22px";
+					img.src = collectionchest_icon;
+					priceElement.appendChild(img);
 					
 					addElement()
 				}
@@ -102,7 +106,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 					title = "From Shop: "+price.split(">")[1]
 					href = price.split(">")[0].split('"')[1]
 					priceElement.href = href
-					priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+shop_icon+'"></img>'
+					var img = document.createElement("img");
+					img.title = title;
+					img.style.width = "22px";
+					img.src = shop_icon;
+					priceElement.appendChild(img);
 					addElement()
 					
 				}
@@ -115,7 +123,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 						href = "http://aqwwiki.wikidot.com/twilly-s-quests#2"
 						
 						priceElement.href = href
-						priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+treasurechest_icon+'"></img>'
+						var img = document.createElement("img");
+						img.title = title;
+						img.style.width = "22px";
+						img.src = treasurechest_icon;
+						priceElement.appendChild(img);
 						
 						addElement()
 					}
@@ -125,7 +137,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 						href = price.split('href="')[1].split('"')[0]
 						
 						priceElement.href = href
-						priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+quest_icon+'"></img>'
+						var img = document.createElement("img");
+						img.title = title;
+						img.style.width = "22px";
+						img.src = quest_icon;
+						priceElement.appendChild(img);
 						
 						addElement()
 					}
@@ -137,7 +153,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 						href = price 
 						
 						priceElement.href = href
-						priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+whellofdoom_icon+'"></img>'
+						var img = document.createElement("img");
+						img.title = title;
+						img.style.width = "22px";
+						img.src = whellofdoom_icon;
+						priceElement.appendChild(img);
 						
 						addElement()
 					}
@@ -148,7 +168,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 					href = price.split(">")[0].split('"')[1]
 					
 					priceElement.href = href
-					priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+mergeshop_icon+'"></img>'
+					var img = document.createElement("img");
+					img.title = title;
+					img.style.width = "22px";
+					img.src = mergeshop_icon;
+					priceElement.appendChild(img);
 					
 					addElement()
 				}
@@ -161,7 +185,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 						href = price 
 						
 						priceElement.href = href.split("href")[1].split(">")[0].replace("=","http://aqwwiki.wikidot.com")
-						priceElement.innerHTML = '<img title="'+title+'" style="width:22px" src="'+drop_icon+'"></img>'
+						var img = document.createElement("img");
+						img.title = title;
+						img.style.width = "22px";
+						img.src = drop_icon;
+						priceElement.appendChild(img);
 						
 						
 						
@@ -179,7 +207,11 @@ function httpGet(theUrl, nodeList, arrayOffset, x, isMonster, isQuest, isMerge)
 					href = ""
 
 					priceElement.href = href
-					priceElement.innerHTML = '<img  title="'+title+'" style="width:22px" src="'+collectionchest_icon+'"></img></div>'
+					var img = document.createElement("img");
+					img.title = title;
+					img.style.width = "22px";
+					img.src = collectionchest_icon;
+					priceElement.appendChild(img);
 					addElement()
 				}
 			}
@@ -246,8 +278,8 @@ function processRescourceItem(Items, nodeText, nodeList, arrayOffset, x, isMerge
 	
 	if (originaAmount !== null && originaAmount !== undefined){ 
 	
-		originalAmountCount.innerHTML = originaAmount 
-		accountAmountCount.innerHTML = accountAmount 
+		originalAmountCount.textContent = originaAmount 
+		accountAmountCount.textContent = accountAmount 
 
 		if (isMonster == false) {
 			if (parseInt(originaAmount.replace("x","")) <= accountAmount) {
@@ -276,8 +308,13 @@ async function addLocationIcon(nodeList, nodeText, Items, arrayOffset, x, isList
 	let where_icon = document.createElement("a");
 	
 	// Adds icons of where is located 	
+	var img = document.createElement("img");
 	if (Where[Items.indexOf(nodeText)] == "Bank") {
-		where_icon.innerHTML = " <img title='In Bank' style='height:20px' src='"+bank_icon+"'></img>"
+		img.title = "In Bank";
+		img.style.height = "20px";
+		img.src = bank_icon;
+		where_icon.appendChild(document.createTextNode(" "));
+		where_icon.appendChild(img);
 		if (isList) {
 			nodeList[arrayOffset+x].parentNode.appendChild(where_icon, nodeList[arrayOffset+x])
 
@@ -290,12 +327,15 @@ async function addLocationIcon(nodeList, nodeText, Items, arrayOffset, x, isList
 		
 		
 	} else {
+		img.title = "In inventory";
+		img.style.height = "20px";
+		img.src = inv_icon;
+		where_icon.appendChild(document.createTextNode(" "));
+		where_icon.appendChild(img);
 		if (isList) {
-			where_icon.innerHTML = " <img title='In inventory' style='height:20px' src='"+inv_icon+"'></img>"
 			nodeList[arrayOffset+x].parentNode.appendChild(where_icon, nodeList[arrayOffset+x])
 
 		} else {
-			where_icon.innerHTML = " <img title='In inventory' style='height:20px' src='"+inv_icon+"'></img>"
 			nodeList[arrayOffset+x].appendChild(where_icon)
 		}
 	}	
@@ -345,9 +385,9 @@ async function ProcessWikiItem(nodeList, arrayOffset, Items, Buy, Category, Wher
 			
 			if (RescourceCount !== false){
 				var Separator = document.createElement("b") 
-				Separator.innerHTML = "/"
-				if (RescourceCount[0].innerHTML == " "){
-					RescourceCount[0].innerHTML = " x1"
+				Separator.textContent = "/"
+				if (RescourceCount[0].textContent == " "){
+					RescourceCount[0].textContent = " x1"
 				}
 				
 				if (isMerge) {

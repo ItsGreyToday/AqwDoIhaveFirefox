@@ -52,7 +52,9 @@ function ProcessAccountItems() {
 		// Only create and append indicator if the filter element exists
 		if (filterElement) {
 			indicator = document.createElement("div");
-			indicator.innerHTML = "<h>Loaded 0 Items</h>";
+			var h = document.createElement("h");
+			h.textContent = "Loaded 0 Items";
+			indicator.appendChild(h);
 			indicator.style = "display: block;width: auto;text-align: right;position:relative;";
 			indicator.classList.add("tblHeader");
 			filterElement.appendChild(indicator);
@@ -189,7 +191,14 @@ function ProcessAccountItems() {
 		}
 	// Update indicator if it was created and appended
 	if (indicator) {
-		indicator.innerHTML = "<h>Loaded "+Items.length+" Items</h>";
+		var h = indicator.querySelector("h");
+		if (h) {
+			h.textContent = "Loaded "+Items.length+" Items";
+		} else {
+			h = document.createElement("h");
+			h.textContent = "Loaded "+Items.length+" Items";
+			indicator.appendChild(h);
+		}
 	}
 	
 	var data = [Items, Where, Type, Buy, Category]

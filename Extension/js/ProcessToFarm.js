@@ -70,42 +70,62 @@ async function add_to_table(table,item_name,item_details, av_item_count, avaliab
 	let td_3 = document.createElement("td")
 	av_item_count+=1
 	
-	td_1.innerHTML = item_name
+	td_1.textContent = item_name
 	
 	if (item_details[1][1][0] == "Drop" || item_details[1][1][0] == "Quest" || item_details[1][1][0] == "Merge") {
 		if  (item_details[1][1][1] !== "") {
-			td_2.innerHTML = "<a href='http://aqwwiki.wikidot.com/"+item_details[1][1][2]+"'>"+item_details[1][1][1]+"</a>"
-			
+			var link = document.createElement("a");
+			link.href = "http://aqwwiki.wikidot.com/"+item_details[1][1][2];
+			link.textContent = item_details[1][1][1];
+			td_2.appendChild(link);
 		} else {
-			td_2.innerHTML = item_details[1][1][1][0]
+			td_2.textContent = item_details[1][1][1][0];
 		}
 	} else {
-		td_2.innerHTML = "N/A"
+		td_2.textContent = "N/A"
 	}
 	
 	// Monster Drop Icon
 	if (item_details[1][1][0] == "Drop") {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+drop_icon+"'></img>"
+		var dropImg = document.createElement("img");
+		dropImg.style.height = "20px";
+		dropImg.src = drop_icon;
+		td_3.appendChild(dropImg);
 	}
 	// Quest Icon
 	if (item_details[1][1][0] == "Quest") {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+quest_icon+"'></img>"
+		var questImg = document.createElement("img");
+		questImg.style.height = "20px";
+		questImg.src = quest_icon;
+		td_3.appendChild(questImg);
 	}
 	// Merge Icon
 	if (item_details[1][1][0] == "Merge") {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+mergeshop_icon+"'></img>"
+		var mergeImg = document.createElement("img");
+		mergeImg.style.height = "20px";
+		mergeImg.src = mergeshop_icon;
+		td_3.appendChild(mergeImg);
 	}
 	// Ac Icon
 	if (item_details[6][1] == true) {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+ac_large+"'></img>"
+		var acImg = document.createElement("img");
+		acImg.style.height = "20px";
+		acImg.src = ac_large;
+		td_3.appendChild(acImg);
 	}
 	// Legend Icon
 	if (item_details[7][1] == true) {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+legend_large+"'></img>"
+		var legendImg = document.createElement("img");
+		legendImg.style.height = "20px";
+		legendImg.src = legend_large;
+		td_3.appendChild(legendImg);
 	}
 	// Seasonal Icon
 	if (item_details[8][1] == true) {
-		td_3.innerHTML = td_3.innerHTML + "<img style='height:20px' src='"+seasonal_large+"'></img>"
+		var seasonalImg = document.createElement("img");
+		seasonalImg.style.height = "20px";
+		seasonalImg.src = seasonal_large;
+		td_3.appendChild(seasonalImg);
 	}
 	
 	tr.appendChild(td_1)
@@ -124,7 +144,9 @@ function processToFarmItem(item_name,item_details,table) {
 	
 function reProcess_ToFarm_Page() {
 	var table_element = document.getElementById("table-content")
-	table_element.innerHTML = "" 
+	while (table_element.firstChild) {
+		table_element.removeChild(table_element.firstChild);
+	}
 	process_ToFarm_Page()
 }
 
@@ -235,8 +257,8 @@ async function process_ToFarm_Page() {
 	
 	var avaliableItemsElement = document.getElementById("av-items")
 	var accounteItemsElement = document.getElementById("ac-items")
-	avaliableItemsElement.innerHTML = "Avaliable Items: "+av_item_count
-	accounteItemsElement.innerHTML = "Account Items: "+ac_item_count
+	avaliableItemsElement.textContent = "Avaliable Items: "+av_item_count
+	accounteItemsElement.textContent = "Account Items: "+ac_item_count
 	
 	
 	browser.storage.local.get({aqwitems: []}, function(result){
@@ -249,8 +271,8 @@ async function process_ToFarm_Page() {
 				av_item_count+= 1
 			}
 		}
-		avaliableItemsElement.innerHTML = "Avaliable Items: "+av_item_count	
-		accounteItemsElement.innerHTML = "Account Items: "+ac_item_count	
+		avaliableItemsElement.textContent = "Avaliable Items: "+av_item_count	
+		accounteItemsElement.textContent = "Account Items: "+ac_item_count	
 		
 	})
 }
