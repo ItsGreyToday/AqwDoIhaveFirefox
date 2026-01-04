@@ -22,7 +22,7 @@ AqwDoIhaveFirefox is a fork of AQWDoIhave, a Chrome extension now converted for 
   <pre><li>Download "Extension" folder</li><li>On your Firefox browser, go to "about:debugging#/runtime/this-firefox"</li><li>Under Temporary Extensions, click "Load Temporary Add-on and select Extension\manifest.json</li></pre>
 </details>
 <details><summary>Permanent Installation for Firefox Browser</summary>
-  <pre><li>Download "Extension" folder</li><li>On your Firefox browser, go to "https://addons.mozilla.org/en-US/developers/addons"</li><li>Click "Submit a New Add-on" and fill-in needed details / upload files</li><li>Once your extension has been reviewed, you should be able to download an .xpi of your extension</li><li>Go to "about:addons" and click the gear icon to the right of "Manage Your Extensions", click "Install Add-on From File..." and select the .xpi</li></pre>
+  <pre><li>Download the .xpi from the [latest release](https://github.com/ItsGreyToday/AqwDoIhaveFirefox/releases)</li><li>Drag and drop the .xpi to your Firefox browser's tab space and click Add.</li></pre>
 </details>
 
 ## Usage
