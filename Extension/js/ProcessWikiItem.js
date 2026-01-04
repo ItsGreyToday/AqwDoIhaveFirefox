@@ -249,8 +249,14 @@ async function ProcessAnyWikiItem(nodeList, arrayOffset, Buy, Category, Where, T
 	
 
 	
-	if (nodeLink.includes("http://aqwwiki.wikidot.com/")){
-		httpGet(nodeLink, nodeList, arrayOffset, x, isMonster, isQuest, isMerge);
+	try {
+		const parsedUrl = new URL(nodeLink);
+		if ((parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") &&
+			parsedUrl.hostname === "aqwwiki.wikidot.com") {
+			httpGet(nodeLink, nodeList, arrayOffset, x, isMonster, isQuest, isMerge);
+		}
+	} catch (e) {
+		// If nodeLink is not a valid URL, skip processing it.
 	}
 	
 }
