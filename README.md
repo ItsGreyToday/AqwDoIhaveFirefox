@@ -10,34 +10,20 @@ Table of contents
      * [Installation](#installation)
      * [Usage](#usage)
      * [Features](#features)
-     * [Issues](#issues)
    * [Screenshots](#images)
 <!--te-->
 
 
 ## About
-AqwDoIhave is a chromium Extension that supports manifest v3, used for Aqw Game.
+AqwDoIhaveFirefox is a fork of AQWDoIhave, a Chrome extension now converted for Firefox use.
 
 ## Installation
-<details><summary>Standard Installation for Browser</summary>
-  <pre><li>Download "Extension" folder in any way you preffer</li><li>Go to extensions chrome://extensions, brave://extension etc depending on your browser.</li><li>Enable "Developer mode" on top right.</li><li>Click "Load Unpacked".</li><li>Find "Extension" folder and select it.</li></pre>
+<details><summary>Session Installation for Firefox Browser</summary>
+  <pre><li>Download "Extension" folder</li><li>On your Firefox browser, go to "about:debugging#/runtime/this-firefox"</li><li>Under Temporary Extensions, click "Load Temporary Add-on and select Extension\manifest.json</li></pre>
 </details>
-<details><summary>Artix Game Launcher Instalation (WIP but works) </summary>
-Follow instructions:
-<br><br>
-0. Download https://mega.nz/file/9voxCCxR#JizAyZUQkQpTEEmo5-yj4xht4ge-ubwajV1geCevTQE<br>
-1. First right click Artix Launcher and "Open file location"<br>
-2. Go to folder rescources and rename app.asar to backup.asar (Just For Safety)<br>
-   2.1 if something goes wrong just delete app.asar and rename backup.asar to app.asar then it will work same as originally.<br>
-3. Go back to previous folder (Where Artix Launcher Exe is located)<br>
-4. Extract ArtixLauncherIntegration.zip there.<br>
-5. Go to NewChrome/bin/chrome.exe (Launch it)<br>
-6. Proceed with Standard Installation for Browser.<br>
-<br>
-When it works:<br>
-  To Update Inventory click update inventory and login to page, after login you will need to close window, next time you just need to press update inventory and it will take you back to wiki page.
+<details><summary>Permanent Installation for Firefox Browser</summary>
+  <pre><li>Download "Extension" folder</li><li>On your Firefox browser, go to "https://addons.mozilla.org/en-US/developers/addons"</li><li>Click "Submit a New Add-on" and fill-in needed details / upload files</li><li>Once your extension has been reviewed, you should be able to download an .xpi of your extension</li><li>Go to "about:addons" and click the gear icon to the right of "Manage Your Extensions", click "Install Add-on From File..." and select the .xpi</li></pre>
 </details>
-
 
 ## Usage
 <li>Go to https://account.aq.com/AQW/Inventory, if needed login and click inventory on the left, and wait for inventory to load</li>
@@ -60,15 +46,6 @@ On Aqw Wiki:
   </pre>
 
   </li>
-
-
-
-
-
-## Issues
-[Create issue](https://github.com/DragoNext/AqwDoIhave/issues), i will fix it ASAP, sometimes i may make mistake fixing issue please be considerate ^^ thanks for support
-
-
 
 ## Images
 ![image](https://user-images.githubusercontent.com/49029552/201159350-17894958-e2f8-4369-b1b6-0aec0d48972a.png)
