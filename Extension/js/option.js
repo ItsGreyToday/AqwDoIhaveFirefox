@@ -1,4 +1,4 @@
-// Saves options to chrome.storage
+// Saves options to browser.storage
 
 //<div class="block">
 //<a style="vertical-align:middle">Highlight color</a>
@@ -18,11 +18,11 @@ function download(content, fileName, contentType) {
 
 function export_account() {
 	var ExportData = {} 
-	chrome.storage.local.get({aqwitems: [null]}, function(result){var Items = result.aqwitems;
-		chrome.storage.local.get({aqwbuy: [null]}, function(result){var Buy = result.aqwbuy;
-			chrome.storage.local.get({aqwcategory: [null]}, function(result){var Category = result.aqwcategory;
-				chrome.storage.local.get({aqwwhere: [null]}, function(result){var Where = result.aqwwhere;
-					chrome.storage.local.get({aqwtype: [null]}, function(result){var Type = result.aqwtype;
+	browser.storage.local.get({aqwitems: [null]}, function(result){var Items = result.aqwitems;
+		browser.storage.local.get({aqwbuy: [null]}, function(result){var Buy = result.aqwbuy;
+			browser.storage.local.get({aqwcategory: [null]}, function(result){var Category = result.aqwcategory;
+				browser.storage.local.get({aqwwhere: [null]}, function(result){var Where = result.aqwwhere;
+					browser.storage.local.get({aqwtype: [null]}, function(result){var Type = result.aqwtype;
 						
 						for (var i = 0; i < Items.length; i++) {
 							ExportData[Items[i]] = [Buy[i], Category[i], Where[i], Type[i]]
@@ -49,17 +49,17 @@ function export_account() {
 
 function save_options() {
   var Dark_Mode = document.getElementById('dark_mode').checked;
-  chrome.storage.local.set({"darkmode": Dark_Mode}, function() {});
+  browser.storage.local.set({"darkmode": Dark_Mode}, function() {});
   var WIP_moreinfo = document.getElementById('like').checked;
-  chrome.storage.local.set({"wipmoreinfo": WIP_moreinfo}, function() {});	
+  browser.storage.local.set({"wipmoreinfo": WIP_moreinfo}, function() {});	
 }
 
 function restore_options() {
-  chrome.storage.local.get({wipmoreinfo: 1}, function(result){
+  browser.storage.local.get({wipmoreinfo: 1}, function(result){
 	document.getElementById('like').checked = result.wipmoreinfo 
    })
 
-   chrome.storage.local.get({darkmode: 0}, function(result){
+   browser.storage.local.get({darkmode: 0}, function(result){
 	document.getElementById('dark_mode').checked = result.darkmode
    })
 		

@@ -1,9 +1,9 @@
 // ProcessWikiItem.js
 
 // Get Json of Wiki Exclusion Suffixes 
-var wiki_exclude_suffixes = getJson(chrome.runtime.getURL("data/wiki_exclude_suffixes.json"))
-var collection_chests = getJson(chrome.runtime.getURL("data/collection_chests.json"))["chests"]
-var items_json = getJson(chrome.runtime.getURL("data/WikiItems.json"))
+var wiki_exclude_suffixes = getJson(browser.runtime.getURL("data/wiki_exclude_suffixes.json"))
+var collection_chests = getJson(browser.runtime.getURL("data/collection_chests.json"))["chests"]
+var items_json = getJson(browser.runtime.getURL("data/WikiItems.json"))
 
 // WIP stuff 
 

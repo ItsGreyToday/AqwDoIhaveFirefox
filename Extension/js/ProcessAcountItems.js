@@ -12,7 +12,7 @@ function getJson(theUrl)
 
 
 
-var json_data = getJson(chrome.runtime.getURL("data/Unidentified_Translation.json"))
+var json_data = getJson(browser.runtime.getURL("data/Unidentified_Translation.json"))
 
 
 

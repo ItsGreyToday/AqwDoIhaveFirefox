@@ -1,19 +1,19 @@
 /* Main.js */ 
 
-const bank_icon = chrome.runtime.getURL("images/in_bank.png")
-const inv_icon = chrome.runtime.getURL("images/in_inventory.png")
-const price_icon = chrome.runtime.getURL("images/price_icon.png");
-const drop_icon = chrome.runtime.getURL("images/monster_drop.png")
-const collectionchest_icon = chrome.runtime.getURL("images/collectionchest_icon.png")
-const inventory_update_icon = chrome.runtime.getURL("images/update_inventory.png")
-const tofarm_icon = chrome.runtime.getURL("images/WICF_button.png")
+const bank_icon = browser.runtime.getURL("images/in_bank.png")
+const inv_icon = browser.runtime.getURL("images/in_inventory.png")
+const price_icon = browser.runtime.getURL("images/price_icon.png");
+const drop_icon = browser.runtime.getURL("images/monster_drop.png")
+const collectionchest_icon = browser.runtime.getURL("images/collectionchest_icon.png")
+const inventory_update_icon = browser.runtime.getURL("images/update_inventory.png")
+const tofarm_icon = browser.runtime.getURL("images/WICF_button.png")
 
-const mergeshop_icon = chrome.runtime.getURL("images/mergeshop_icon.png")
-const quest_icon = chrome.runtime.getURL("images/quest_icon.png")
-const shop_icon = chrome.runtime.getURL("images/shop_icon.png")
-const treasurechest_icon = chrome.runtime.getURL("images/treasurechest_icon.png")
-const whellofdoom_icon = chrome.runtime.getURL("images/whellofdoom_icon.png")
-const normal_icon = chrome.runtime.getURL("images/normal_icon.png")
+const mergeshop_icon = browser.runtime.getURL("images/mergeshop_icon.png")
+const quest_icon = browser.runtime.getURL("images/quest_icon.png")
+const shop_icon = browser.runtime.getURL("images/shop_icon.png")
+const treasurechest_icon = browser.runtime.getURL("images/treasurechest_icon.png")
+const whellofdoom_icon = browser.runtime.getURL("images/whellofdoom_icon.png")
+const normal_icon = browser.runtime.getURL("images/normal_icon.png")
 
 const wiki_searchpage = "aqwwiki.wikidot.com/search-items"
 var found = 0 
@@ -111,7 +111,7 @@ function waitForTableToLoad(){
 }
 
 function goto_ToFarm() {
-	document.location.href = chrome.runtime.getURL("tofarm.html")
+	document.location.href = browser.runtime.getURL("tofarm.html")
 }
 
 
@@ -119,7 +119,7 @@ function processAcountBackground() {
 	var prevurl = document.location.href 
 	
 	
-	chrome.storage.local.set({"background": prevurl}, function() {});
+	browser.storage.local.set({"background": prevurl}, function() {});
 	document.location.href = "https://account.aq.com/AQW/Inventory"
 }
 
@@ -159,24 +159,24 @@ function addUpdateInventory_button() {
 }
 
 function setFilterAc() {
-	chrome.storage.local.get({mergeFilterAc: false}, function(result){
-		chrome.storage.local.set({"mergeFilterAc": !result.mergeFilterAc}, function() {});
+	browser.storage.local.get({mergeFilterAc: false}, function(result){
+		browser.storage.local.set({"mergeFilterAc": !result.mergeFilterAc}, function() {});
 		document.getElementById("AcFilter").checked = !result.mergeFilterAc
 	})
 	FilterEvent()
 }
 
 function setFilterNormal() {
-	chrome.storage.local.get({mergeFilterNormal: false}, function(result){
-		chrome.storage.local.set({"mergeFilterNormal": !result.mergeFilterNormal}, function() {});
+	browser.storage.local.get({mergeFilterNormal: false}, function(result){
+		browser.storage.local.set({"mergeFilterNormal": !result.mergeFilterNormal}, function() {});
 		document.getElementById("NormalFilter").checked = !result.mergeFilterNormal
 	})
 	FilterEvent()
 }
 
 function setFilterLegend() {
-	chrome.storage.local.get({mergeFilterLegend: false}, function(result){
-		chrome.storage.local.set({"mergeFilterLegend": !result.mergeFilterLegend}, function() {});
+	browser.storage.local.get({mergeFilterLegend: false}, function(result){
+		browser.storage.local.set({"mergeFilterLegend": !result.mergeFilterLegend}, function() {});
 		document.getElementById("LegendFilter").checked = !result.mergeFilterLegend
 	})
 	FilterEvent()
@@ -189,18 +189,18 @@ function processAcount() {
 	var data = ProcessAccountItems();
 	
 	// Save Items to local Storage 
-	chrome.storage.local.set({"aqwitems": data[0]}, function() {});
-	chrome.storage.local.set({"aqwwhere": data[1]}, function() {});
-	chrome.storage.local.set({"aqwtype": data[2]}, function() {});
-	chrome.storage.local.set({"aqwbuy": data[3]}, function() {});
-	chrome.storage.local.set({"aqwcategory": data[4]}, function() {});
+	browser.storage.local.set({"aqwitems": data[0]}, function() {});
+	browser.storage.local.set({"aqwwhere": data[1]}, function() {});
+	browser.storage.local.set({"aqwtype": data[2]}, function() {});
+	browser.storage.local.set({"aqwbuy": data[3]}, function() {});
+	browser.storage.local.set({"aqwcategory": data[4]}, function() {});
 	
-	chrome.storage.local.get({background: false}, function(result){
+	browser.storage.local.get({background: false}, function(result){
 		if (result.background !== false && document.location.href == "https://account.aq.com/AQW/Inventory") {
 			if (result.background.includes("http://aqwwiki.wikidot.com/")) { // Redirect Only Aqw Wiki Pages  
 				document.location.href = result.background
 			}
-			chrome.storage.local.set({"background": false}, function() {});
+			browser.storage.local.set({"background": false}, function() {});
 		} 
 		
 	});
@@ -226,13 +226,13 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 } else {
 
 	// Adds theme if enabled 
-	chrome.storage.local.get({darkmode: 0}, function(result){
+	browser.storage.local.get({darkmode: 0}, function(result){
 		if(result.darkmode) {
-			addCss(chrome.runtime.getURL("themes/dark.css"));
+			addCss(browser.runtime.getURL("themes/dark.css"));
 		}
 	});
 	
-	addCss(chrome.runtime.getURL("themes/progressbar.css"));
+	addCss(browser.runtime.getURL("themes/progressbar.css"));
 	// page load 
 	document.addEventListener('DOMContentLoaded', function(event) {
 	
@@ -338,11 +338,11 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 				filterLegendInput.onclick = function(){setFilterLegend();resetFilterMerge();TagFilterMerge(filterNormalInput.checked, filterAcInput.checked, filterLegendInput.checked);return false; }
 		
 		
-				chrome.storage.local.get({mergeFilterNormal: false}, function(result){
+				browser.storage.local.get({mergeFilterNormal: false}, function(result){
 					filterNormalInput.checked = result.mergeFilterNormal
-					chrome.storage.local.get({mergeFilterLegend: false}, function(result){
+					browser.storage.local.get({mergeFilterLegend: false}, function(result){
 						filterLegendInput.checked = result.mergeFilterLegend
-						chrome.storage.local.get({mergeFilterAc: false}, function(result){
+						browser.storage.local.get({mergeFilterAc: false}, function(result){
 							filterAcInput.checked = result.mergeFilterAc
 							TagFilterMerge(filterNormalInput.checked, filterAcInput.checked, filterLegendInput.checked)
 						})
@@ -386,17 +386,17 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 	
 	// get stored data
 	// If WIP in options is enabled.
-	chrome.storage.local.get({wipmoreinfo: 1}, function(result){WIP_moreinfo = result.wipmoreinfo;})
+	browser.storage.local.get({wipmoreinfo: 1}, function(result){WIP_moreinfo = result.wipmoreinfo;})
 
 	// Get account data (Just not items) 
-	chrome.storage.local.get({aqwbuy: []}, function(result){Buy = result.aqwbuy;});
-	chrome.storage.local.get({aqwcategory: []}, function(result){Category = result.aqwcategory;});
-	chrome.storage.local.get({aqwwhere: []}, function(result){Where = result.aqwwhere;});
-	chrome.storage.local.get({aqwtype: []}, function(result){Type = result.aqwtype;});
+	browser.storage.local.get({aqwbuy: []}, function(result){Buy = result.aqwbuy;});
+	browser.storage.local.get({aqwcategory: []}, function(result){Category = result.aqwcategory;});
+	browser.storage.local.get({aqwwhere: []}, function(result){Where = result.aqwwhere;});
+	browser.storage.local.get({aqwtype: []}, function(result){Type = result.aqwtype;});
 	
-	chrome.storage.local.get({mergeFilterAc: []}, function(result){mergeFilterAc = result.mergeFilterAc;});
-	chrome.storage.local.get({mergeFilterNormal: []}, function(result){mergeFilterNormal = result.mergeFilterNormal;});
-	chrome.storage.local.get({mergeFilterLegend: []}, function(result){mergeFilterLegend = result.mergeFilterLegend;});
+	browser.storage.local.get({mergeFilterAc: []}, function(result){mergeFilterAc = result.mergeFilterAc;});
+	browser.storage.local.get({mergeFilterNormal: []}, function(result){mergeFilterNormal = result.mergeFilterNormal;});
+	browser.storage.local.get({mergeFilterLegend: []}, function(result){mergeFilterLegend = result.mergeFilterLegend;});
 	
 
 
@@ -405,7 +405,7 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 	
 	
 	// Get items and process it 
-	chrome.storage.local.get({aqwitems: []}, function(result){
+	browser.storage.local.get({aqwitems: []}, function(result){
 			var Items = result.aqwitems;
 			
 			if (isMerge) {

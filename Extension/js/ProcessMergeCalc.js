@@ -491,11 +491,11 @@ function updateTitleList() {
 
 function updateCostMergeShop(Items, MFN, MFA, MFL) {
 	
-	chrome.storage.local.get({mergeFilterAc: []}, function(result){
+	browser.storage.local.get({mergeFilterAc: []}, function(result){
 		mergeFilterAc = result.mergeFilterAc;
-		chrome.storage.local.get({mergeFilterNormal: []}, function(result){
+		browser.storage.local.get({mergeFilterNormal: []}, function(result){
 			mergeFilterNormal = result.mergeFilterNormal;
-			chrome.storage.local.get({mergeFilterLegend: []}, function(result){
+			browser.storage.local.get({mergeFilterLegend: []}, function(result){
 				mergeFilterLegend = result.mergeFilterLegend;
 		
 				Frame = document.getElementsByClassName("CostMerge")[0]

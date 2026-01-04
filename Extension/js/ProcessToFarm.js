@@ -23,8 +23,8 @@ function getJson(theUrl)
     return JSON.parse(xmlHttp.responseText)
 }
 
-var items_json = getJson(chrome.runtime.getURL("data/WikiItems.json"))
-var wiki_exclude_suffixes = getJson(chrome.runtime.getURL("data/wiki_exclude_suffixes.json"))
+var items_json = getJson(browser.runtime.getURL("data/WikiItems.json"))
+var wiki_exclude_suffixes = getJson(browser.runtime.getURL("data/wiki_exclude_suffixes.json"))
 
 
 
@@ -204,7 +204,7 @@ async function process_ToFarm_Page() {
 	accounteItemsElement.innerHTML = "Account Items: "+ac_item_count
 	
 	
-	chrome.storage.local.get({aqwitems: []}, function(result){
+	browser.storage.local.get({aqwitems: []}, function(result){
 		var account_items = result.aqwitems
 		ac_item_count = result.aqwitems.length
 		for (var x = 0; x < item_keys.length; x++) {
@@ -219,9 +219,9 @@ async function process_ToFarm_Page() {
 		
 	})
 }
-const drop_icon = chrome.runtime.getURL("images/monster_drop.png")
-const quest_icon = chrome.runtime.getURL("images/quest_icon.png")
-const mergeshop_icon = chrome.runtime.getURL("images/mergeshop_icon.png")
+const drop_icon = browser.runtime.getURL("images/monster_drop.png")
+const quest_icon = browser.runtime.getURL("images/quest_icon.png")
+const mergeshop_icon = browser.runtime.getURL("images/mergeshop_icon.png")
 
 
 if (window.location.href.includes("tofarm.html")) {

@@ -1,5 +1,5 @@
 
-if (document.URL.includes("chrome-extension")) { 
+if (document.URL.includes("moz-extension") || document.URL.includes("chrome-extension")) { 
 	document.addEventListener('DOMContentLoaded', popup_restore_options);
 }
 else{
@@ -7,7 +7,7 @@ else{
 }
 function popup_restore_options() {
 	var docs = document.getElementById('dark_moded')
-	chrome.storage.local.get({darkmode: 0}, function(result){
+	browser.storage.local.get({darkmode: 0}, function(result){
 	if (result.darkmode == 1) {
 		docs.innerHTML = "Dark Mode (ON)"
 	}
@@ -26,7 +26,7 @@ function popup_save_options() {
   } else {
 	  Dark_Mode = 1
   }
-  chrome.storage.local.set({"darkmode": Dark_Mode}, function() {});
+  browser.storage.local.set({"darkmode": Dark_Mode}, function() {});
   popup_restore_options()
   }
  
