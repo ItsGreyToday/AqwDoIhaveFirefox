@@ -109,7 +109,15 @@ jQuery.noConflict();
             return;
         }
         images.forEach(src => {
-            $("#preview").append(`<img style="max-width:${maxwidth}px; max-height:${maxheight}px; height:auto; width:auto;" src="${src}">`);
+            const $img = $("<img>")
+                .css({
+                    "max-width": maxwidth + "px",
+                    "max-height": maxheight + "px",
+                    "height": "auto",
+                    "width": "auto"
+                })
+                .attr("src", src);
+            $("#preview").append($img);
         });
         waitForImg("#preview img", function() {
             $("#preview img").each(function() {
