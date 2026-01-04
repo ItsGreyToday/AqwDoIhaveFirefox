@@ -222,7 +222,19 @@ function processAcount() {
 		// After all data is saved, check for redirect
 		browser.storage.local.get({background: false}, function(result){
 			if (result.background !== false && document.location.href == "https://account.aq.com/AQW/Inventory") {
-				if (result.background.includes("http://aqwwiki.wikidot.com/")) { // Redirect Only Aqw Wiki Pages  
+				let shouldRedirect = false;
+				try {
+					const redirectUrl = new URL(result.background);
+					const allowedHosts = ['aqwwiki.wikidot.com'];
+					if ((redirectUrl.protocol === 'http:' || redirectUrl.protocol === 'https:') &&
+						allowedHosts.includes(redirectUrl.hostname)) {
+						shouldRedirect = true;
+					}
+				} catch (e) {
+					// Invalid URL, do not redirect
+					shouldRedirect = false;
+				}
+				if (shouldRedirect) { // Redirect Only Aqw Wiki Pages  
 					// Clear the background flag first
 					browser.storage.local.set({"background": false}, function() {
 						// Small delay to ensure page is ready, then redirect
