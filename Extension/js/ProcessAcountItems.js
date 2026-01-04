@@ -46,15 +46,52 @@ function ProcessAccountItems() {
 		var Category = [] 
 		
 		// Indicator of loaded items bellow search input.
-		var indicator = document.createElement("div");
+		var indicator = null;
+		var filterElement = document.getElementById("listinvFull_filter");
 		
-		indicator.innerHTML = "<h>Loaded 0 Items</h>";
-		indicator.style = "display: block;width: auto;text-align: right;position:relative;";
-		indicator.classList.add("tblHeader");
-		document.getElementById("listinvFull_filter").appendChild(indicator);
+		// Only create and append indicator if the filter element exists
+		if (filterElement) {
+			indicator = document.createElement("div");
+			indicator.innerHTML = "<h>Loaded 0 Items</h>";
+			indicator.style = "display: block;width: auto;text-align: right;position:relative;";
+			indicator.classList.add("tblHeader");
+			filterElement.appendChild(indicator);
+		}
 		
-		// Get all table elements 
-		var inventoryElement = document.getElementsByTagName("td");
+		// Get all table rows from the inventory table specifically
+		// Try to find the table by ID first
+		var inventoryTable = document.getElementById("listinvFull");
+		if (!inventoryTable) {
+			// Fallback: look for table with id containing "inv" or "listinv"
+			var tables = document.getElementsByTagName("table");
+			for (var t = 0; t < tables.length; t++) {
+				if (tables[t].id && (tables[t].id.includes("inv") || tables[t].id.includes("listinv"))) {
+					inventoryTable = tables[t];
+					break;
+				}
+			}
+		}
+		
+		// Get all rows from the table (skip header row if it exists)
+		var tableRows = inventoryTable ? inventoryTable.getElementsByTagName("tr") : [];
+		var inventoryElement = [];
+		
+		// Extract td elements from each row, skipping header rows
+		for (var r = 0; r < tableRows.length; r++) {
+			var row = tableRows[r];
+			var cells = row.getElementsByTagName("td");
+			// Only process rows that have at least 5 cells (inventory data rows)
+			if (cells.length >= 5) {
+				for (var c = 0; c < cells.length; c++) {
+					inventoryElement.push(cells[c]);
+				}
+			}
+		}
+		
+		// If no table found, fallback to all td elements
+		if (inventoryElement.length === 0) {
+			inventoryElement = document.getElementsByTagName("td");
+		}
 		
 		// Counter for recgonizing row of table 
 		var count = 0;
@@ -64,12 +101,30 @@ function ProcessAccountItems() {
 			count += 1;
 			
 			// Current Table Element 
-			let iterated = inventoryElement[x].innerHTML.trim().replace("’","'");
+			let iterated = inventoryElement[x].innerHTML.trim().replace("'","'");
+			
+			// Skip empty cells or cells with only whitespace
+			if (!iterated || iterated.length === 0) {
+				continue;
+			}
 			
 			//  Count 1 == Item Name 
 			if (count == 1) {
+				// Skip if this looks like a header or non-item text
+				if (iterated.toLowerCase().includes("loading") || 
+				    iterated.toLowerCase().includes("loaded") ||
+				    iterated.toLowerCase() === "item name" ||
+				    iterated.toLowerCase() === "name") {
+					count = 0; // Reset counter and skip this row
+					continue;
+				}
+				
 				iterated = iterated
-				let type = inventoryElement[x+1].innerHTML.trim().replace("’","'")
+				// Check if next element exists before accessing it
+				let type = "";
+				if (x + 1 < inventoryElement.length && inventoryElement[x+1]) {
+					type = inventoryElement[x+1].innerHTML.trim().replace("'","'");
+				}
 				if (iterated.includes(" x")) { // Checks if item has count (Just for Unidentified Translation)
 					Items.push(iterated.toLowerCase());
 				} else if (type == "Item" || type == "Resource" || type == "Quest Item" || type == "Wall Item" || type == "Floor Item")  {
@@ -132,7 +187,10 @@ function ProcessAccountItems() {
 				}
 			}	
 		}
-	indicator.innerHTML = "<h>Loaded "+Items.length+" Items</h>"
+	// Update indicator if it was created and appended
+	if (indicator) {
+		indicator.innerHTML = "<h>Loaded "+Items.length+" Items</h>";
+	}
 	
 	var data = [Items, Where, Type, Buy, Category]
 	return data;

@@ -96,17 +96,38 @@ function TagFilterMerge(normal,ac,legend) {
 
 
 // Wait and Process acount data
+var waitAttempts = 0;
+var maxWaitAttempts = 40; // 10 seconds max (40 * 250ms)
+
 function waitForTableToLoad(){
-		if(typeof document.getElementById("listinvFull").innerHTML.length !== "undefined"){
-			if(document.getElementById("listinvFull").innerHTML.length >= 2000){
-				processAcount();
-			} 
-			else {
-				setTimeout(waitForTableToLoad, 250);
-			}	
-		} 
-		else {
-			setTimeout(waitForTableToLoad, 250);
+	waitAttempts++;
+	var tableElement = document.getElementById("listinvFull");
+	if (tableElement) {
+		// Check if table has content and contains actual inventory rows
+		var tableRows = tableElement.getElementsByTagName("tr");
+		// Wait for at least a few rows to be loaded (not just header)
+		if (tableRows.length > 1) {
+			// Check if first data row exists (skip header row)
+			var firstDataRow = tableRows[1];
+			if (firstDataRow && firstDataRow.getElementsByTagName("td").length >= 5) {
+				// Verify the row has actual item data (not just empty cells)
+				var firstCell = firstDataRow.getElementsByTagName("td")[0];
+				if (firstCell && firstCell.textContent.trim().length > 0 && 
+				    !firstCell.textContent.toLowerCase().includes("loading") &&
+				    !firstCell.textContent.toLowerCase().includes("no data")) {
+					processAcount();
+					return;
+				}
+			}
+		}
+	}
+	// If table not ready and we haven't exceeded max attempts, wait and try again
+	if (waitAttempts < maxWaitAttempts) {
+		setTimeout(waitForTableToLoad, 250);
+	} else {
+		// Max attempts reached, try processing anyway
+		console.log("Max wait attempts reached, processing inventory...");
+		processAcount();
 	}
 }
 
@@ -193,16 +214,24 @@ function processAcount() {
 	browser.storage.local.set({"aqwwhere": data[1]}, function() {});
 	browser.storage.local.set({"aqwtype": data[2]}, function() {});
 	browser.storage.local.set({"aqwbuy": data[3]}, function() {});
-	browser.storage.local.set({"aqwcategory": data[4]}, function() {});
-	
-	browser.storage.local.get({background: false}, function(result){
-		if (result.background !== false && document.location.href == "https://account.aq.com/AQW/Inventory") {
-			if (result.background.includes("http://aqwwiki.wikidot.com/")) { // Redirect Only Aqw Wiki Pages  
-				document.location.href = result.background
+	browser.storage.local.set({"aqwcategory": data[4]}, function() {
+		// After all data is saved, check for redirect
+		browser.storage.local.get({background: false}, function(result){
+			if (result.background !== false && document.location.href == "https://account.aq.com/AQW/Inventory") {
+				if (result.background.includes("http://aqwwiki.wikidot.com/")) { // Redirect Only Aqw Wiki Pages  
+					// Clear the background flag first
+					browser.storage.local.set({"background": false}, function() {
+						// Small delay to ensure page is ready, then redirect
+						setTimeout(function() {
+							document.location.href = result.background;
+						}, 500);
+					});
+				} else {
+					// Clear background even if not redirecting
+					browser.storage.local.set({"background": false}, function() {});
+				}
 			}
-			browser.storage.local.set({"background": false}, function() {});
-		} 
-		
+		});
 	});
 	
 }
@@ -405,7 +434,9 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 	
 	
 	// Get items and process it 
-	browser.storage.local.get({aqwitems: []}, function(result){
+	// Add a small delay to ensure storage is ready after redirect
+	setTimeout(function() {
+		browser.storage.local.get({aqwitems: []}, function(result){
 			var Items = result.aqwitems;
 			
 			if (isMerge) {
@@ -436,7 +467,8 @@ if (window.location.href == "https://account.aq.com/AQW/Inventory") {
 			// Displays found amount 
 			found_info.innerHTML = "- Found "+found+" Items" // Displays items found 
 			
-	})
+		});
+	}, 100); // Small delay to ensure storage is ready
 	
 	})
 	
