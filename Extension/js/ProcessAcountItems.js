@@ -103,7 +103,7 @@ function ProcessAccountItems() {
 			count += 1;
 			
 			// Current Table Element 
-			let iterated = inventoryElement[x].innerHTML.trim().replace("'","'");
+			let iterated = inventoryElement[x].innerHTML.trim().replace("’","'");
 			
 			// Skip empty cells or cells with only whitespace
 			if (!iterated || iterated.length === 0) {
@@ -125,7 +125,7 @@ function ProcessAccountItems() {
 				// Check if next element exists before accessing it
 				let type = "";
 				if (x + 1 < inventoryElement.length && inventoryElement[x+1]) {
-					type = inventoryElement[x+1].innerHTML.trim().replace("'","'");
+					type = inventoryElement[x+1].innerHTML.trim().replace("’","'");
 				}
 				if (iterated.includes(" x")) { // Checks if item has count (Just for Unidentified Translation)
 					Items.push(iterated.toLowerCase());
