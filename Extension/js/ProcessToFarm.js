@@ -219,10 +219,6 @@ async function process_ToFarm_Page() {
 		
 	})
 }
-const drop_icon = browser.runtime.getURL("images/monster_drop.png")
-const quest_icon = browser.runtime.getURL("images/quest_icon.png")
-const mergeshop_icon = browser.runtime.getURL("images/mergeshop_icon.png")
-
 
 if (window.location.href.includes("tofarm.html")) {
 	
