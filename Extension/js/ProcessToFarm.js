@@ -23,7 +23,34 @@ function getJson(theUrl)
     return JSON.parse(xmlHttp.responseText)
 }
 
-var items_json = getJson(browser.runtime.getURL("data/WikiItems.json"))
+// Function to load and merge all split WikiItems files
+function loadWikiItems() {
+	var mergedItems = {};
+	var partNumber = 0;
+	var maxParts = 12; // part_0 through part_11
+	
+	while (partNumber < maxParts) {
+		try {
+			var partUrl = browser.runtime.getURL("data/split/WikiItems_part_" + partNumber + ".json");
+			var partData = getJson(partUrl);
+			// Merge the part data into the main object
+			for (var key in partData) {
+				if (partData.hasOwnProperty(key)) {
+					mergedItems[key] = partData[key];
+				}
+			}
+			partNumber++;
+		} catch (e) {
+			// If a part file doesn't exist or fails to load, stop trying
+			console.log("Stopped loading WikiItems parts at part " + partNumber);
+			break;
+		}
+	}
+	
+	return mergedItems;
+}
+
+var items_json = loadWikiItems()
 var wiki_exclude_suffixes = getJson(browser.runtime.getURL("data/wiki_exclude_suffixes.json"))
 
 
